@@ -1,0 +1,62 @@
+body {
+  background-color: darkcyan;
+  color:white;
+
+}
+
+.cell {
+  border: 3px solid;
+  border-style: outset;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 1.5em;
+  background-color: darkgrey;
+  cursor: pointer;
+}
+
+.cell:hover{
+  border-color: darkblue;
+}
+
+.game-over{
+  display: none;
+  position: absolute;
+  background-color: honeydew;
+  border-radius: 20px;
+  right: 50%;
+}
+
+.game-over h1{
+  color: black;
+  padding: 5px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.show{
+  display: block;
+}
+
+.shown{
+  background-color:grey;
+  border: 3px solid;
+  border-style:groove ;
+  border-color: darkviolet;
+}
+
+.exploded{
+  border: 5px solid;
+  border-style: dashed ;
+  background-color: red;
+  border-color:darkred;
+}
+
+.lives{
+  text-align: right;
+}
+
+.emoji:hover{
+cursor: pointer;
+}
+
