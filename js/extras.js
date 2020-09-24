@@ -55,11 +55,11 @@ function deepCopyGame(game) {
     return newGame;
 }
 
-function setMinesManually(elCell) {
-    var 
-    var isManual = confirm('Place Manually?');
-    if (!isManual) return;
-    elCell.innerText = MINE;
-    var currIdx = getCellCoord(elCell.id);
+// function setMinesManually(elCell) {
+//     var 
+//     var isManual = confirm('Place Manually?');
+//     if (!isManual) return;
+//     elCell.innerText = MINE;
+//     var currIdx = getCellCoord(elCell.id);
 
-}
+// }
