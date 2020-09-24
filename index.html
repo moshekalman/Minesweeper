@@ -14,21 +14,32 @@
         <button onclick="resetGame(this)">Easy</button>
         <button onclick="resetGame(this)">Medium</button>
         <button onclick="resetGame(this)">Hard</button>
+
     </div>
+
     <div class="game-over">
         <h1> <span class="game-state"></span> Start Again If You Wish</h1>
     </div>
 
     <div class="board-info">
-        <h2><span class="emoji" onclick="resetGame(this)">🙂</span> Lives:<span class="lives"></span></h2>
+        <h2>Good Luck:</h2>
+        <h2>Lives:<span class="lives"></span><span class="emoji" onclick="resetGame(this)">🙂</span></h2>
+        <h3 class="timer"></h3>
     </div>
     <div class="board-container"></div>
-    
+
+    <div class="storage"></div>
     <script src="js/utils.js"></script>
     <script src="js/game.js"></script>
     <script src="js/mines.js"></script>
     <script src="js/cells.js"></script>
+    <script src="js/extras.js"></script>
 
+    <div class="helpers">
+        <h1><span class="hints" onclick="getHint()">Hints: 💡💡💡</span></h1>
+        <button onclick="getSafeClick()">Safe Clicks: <span class="safe-clicks">3</span></button>
+        <button onclick="getUndo()">Undo</button>
+    </div>
 </body>
 
 </html>

@@ -2,35 +2,72 @@
 const MINE = '💣';
 const FLAG = '🚩';
 const EMPTY = ' ';
+const HINT = '💡';
 
-const LOSE_EMO = ' 💀';
+const LOSE_EMO = '💀';
 const WIN_EMO = '😎';
 const DOUBT_EMO = '😯';
 const NORMAL_EMO = '🙂';
 const LIVE = '💖';
 const LIVE_DOWN = '💔';
+const EXPLODE_EMO = '🤯';
+
+var gGameCopy;
+var gBoardCopy;
 
 var gElEmoji = document.querySelector('.emoji');
 var gElLives = document.querySelector('.lives');
+var gElHints;
 var gEmoInterval; //to clear doubt face after win
 var gBoard;
 var gGame;
+var gIsHint;
+var gSafeClicksCount;
 var gLivesCount;
+var gHintsCount;
+var gStartingTime;
+var gTimerInterval;
+var gTimer;
+var gElTimer = document.querySelector('.timer');
 var gLevel = {
     SIZE: 4,
     MINES: 2
 };
-
+var gIsFirstClick;
 var gPrevLevel = gLevel;
 
-//dissable right click
-document.addEventListener('contextmenu', event => event.preventDefault());
+
+function init() {
+    //dissable right click
+    gTimer = 0;
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    gIsFirstClick = true;
+    gLivesCount = 3;
+    gHintsCount = 3;
+    gElHints = document.querySelector('.hints');
+    gElHints.innerText = `Hints: ${HINT + HINT + HINT}`;
+    gSafeClicksCount = 3;
+    var elSpan = document.querySelector('.helpers .safe-clicks');
+    elSpan.innerText = gSafeClicksCount;
+    gElLives.innerText = `${LIVE + LIVE + LIVE}`;
+    gBoard = buildBoard(gLevel.SIZE);
+    renderBoard(gBoard, '.board-container');
+    gGame = {
+        isOn: true,
+        shownCount: 0,
+        markedCount: 0,
+        secsPassed: 0
+    };
+    gGameCopy = deepCopyGame(gGame);
+    gBoardCopy = deepCopyBoard(gBoard);
+    saveMemento();
+}
 
 // resets init with the chosen diff
 function resetGame(elCell) {
+    clearInterval(gTimerInterval);
     if (!gGame.isOn) toggleGameOver();
     gElEmoji.innerText = NORMAL_EMO;
-    console.log(elCell.innerText);
     switch (elCell.innerText.toLowerCase()) {
         case 'easy':
             gLevel.SIZE = 4;
@@ -53,19 +90,7 @@ function resetGame(elCell) {
 
 }
 
-function init() {
-    gLivesCount = 3;
-    gElLives.innerText = `${LIVE + LIVE + LIVE}`;
-    gBoard = buildBoard(gLevel.SIZE);
-    renderBoard(gBoard, '.board-container');
-    gGame = {
-        isOn: true,
-        shownCount: 0,
-        markedCount: 0,
-        secsPassed: 0
-    };
 
-}
 
 function buildBoard(SIZE = 4) {
     var board = [];
@@ -80,13 +105,7 @@ function buildBoard(SIZE = 4) {
             };
         }
     }
-    setMines(board, SIZE);
-    for (var i = 0; i < SIZE; i++) {
-        for (var j = 0; j < SIZE; j++) {
-            board[i][j].minesAroundCount = getMinesNegsCount(board, i, j);
-        }
-    }
-    console.table(board);
+
     return board;
 }
 
@@ -97,7 +116,7 @@ function renderBoard(mat, selector) {
         for (var j = 0; j < mat[0].length; j++) {
             // var cell = (mat[i][j].isMine) ? MINE : mat[i][j].minesAroundCount; //dev cheats
             var cellCoord = `cell-${i}-${j}`;
-            strHTML += `<td class="cell" id=${cellCoord} onmouseup="cellclicked(event, this)"></td>`;
+            strHTML += `<td class="cell" id=${cellCoord} onmousedown="saveMemento(event)" onmouseup="cellclicked(event, this)"></td>`;
         }
         strHTML += '</tr>';
     }
@@ -111,6 +130,7 @@ function renderBoard(mat, selector) {
 //some modals
 function toggleGameOver() {
     var elModal = document.querySelector('.game-over');
+    clearInterval(gTimerInterval);
     elModal.classList.toggle('show');
     elModal = document.querySelector('.game-over span');
     elModal.innerText = 'YOU LOST!';
@@ -120,22 +140,29 @@ function toggleGameOver() {
 
 function toggleVictory() {
     clearInterval(gEmoInterval);
+    clearInterval(gTimerInterval);
     var elModal = document.querySelector('.game-over');
     elModal.classList.toggle('show');
     elModal = document.querySelector('.game-over span');
-    elModal.innerText = 'YOU WON';
+    elModal.innerText = 'YOU WON!';
     gElEmoji.innerText = WIN_EMO;
     gGame.isOn = false;
+    gElTimer.innerText = `Final Time: ${gTimer}s`;
 }
 
 function checkVictory() {
     var maxShown = (gLevel.SIZE ** 2) - gLevel.MINES;
-    if (gGame.shownCount === maxShown) {
+    if (gGame.shownCount === maxShown && gGame.markedCount === gLevel.MINES) {
         toggleVictory();
     }
     return;
 }
 
+function setTimer() {
+    var currTime = Date.now();
+    gTimer = (currTime - gStartingTime) / 1000;
+    gElTimer.innerText = `Time: ${gTimer}s`;
+}
 
 
 

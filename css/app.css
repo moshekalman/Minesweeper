@@ -1,14 +1,29 @@
 body {
   background-color: darkcyan;
   color:white;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+ 
 
+table{
+  margin: 0 auto;
+}
+
+.reset button{
+  width: 100px;
+  height: 50px;
+  border-radius: 16px;
+  border-color: aqua;
+  background-color: bisque;
+  font-size: larger;
 }
 
 .cell {
   border: 3px solid;
   border-style: outset;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   text-align: center;
   font-size: 1.5em;
   background-color: darkgrey;
@@ -21,17 +36,16 @@ body {
 
 .game-over{
   display: none;
-  position: absolute;
   background-color: honeydew;
   border-radius: 20px;
-  right: 50%;
+  margin: 0 auto;
+
 }
 
 .game-over h1{
   color: black;
   padding: 5px;
   text-align: center;
-  margin: 0 auto;
 }
 
 .show{
@@ -46,17 +60,78 @@ body {
 }
 
 .exploded{
-  border: 5px solid;
+  border: 3px solid;
   border-style: dashed ;
   background-color: red;
   border-color:darkred;
 }
 
 .lives{
-  text-align: right;
+  text-transform: capitalize;
+}
+
+
+.emoji{
+  display: block;
+  margin-top: 5px;
+  margin-bottom: none;
 }
 
 .emoji:hover{
 cursor: pointer;
 }
 
+.safe{
+  transition: 3s;
+  background-color: blue;
+}
+
+div.board-info{
+  margin: 10px 0;
+  background-color: blueviolet;
+  border-radius: 10px;
+  border-color: honeydew;
+  border-style: groove;
+}
+
+div.helpers{
+  margin: 10px 0;
+  background-color: blueviolet;
+  text-transform: capitalize;
+  border-radius: 20px;
+  border-color: honeydew;
+  border-style: groove;
+}
+
+
+
+.helpers button{
+  width: 150px;
+  height: 50px;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: larger;
+  background-color:blue;
+  color: aquamarine;
+  margin: 5px;
+  cursor: pointer;
+}
+
+
+.helpers .hints{
+  cursor: pointer;
+}
+
+.hints{
+transition: 0.5s;
+}
+
+.timer{
+text-align: left;
+}
+
+h3.timer{
+  margin-left: 10px;
+  font-style: italic;
+  font: Verdana;
+}
