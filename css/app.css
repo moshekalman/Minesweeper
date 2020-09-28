@@ -107,7 +107,7 @@ cursor: pointer;
 
 div.board-info{
   margin: 10px 0;
-  background-image: linear-gradient(to right, darkmagenta, blueviolet , violet, blueviolet, darkmagenta);
+  background-image: linear-gradient(to right, violet, blueviolet , darkmagenta, blueviolet, violet);
   border-radius: 10px;
   border-color: honeydew;
   border-style: groove;
@@ -115,7 +115,7 @@ div.board-info{
 
 div.helpers{
   margin: 10px 0;
-  background-image: linear-gradient(to right, darkmagenta, blueviolet , violet, blueviolet, darkmagenta);
+  background-image: linear-gradient(to right, violet, blueviolet , darkmagenta, blueviolet, violet);
   text-transform: capitalize;
   border-radius: 20px;
   border-color: honeydew;
