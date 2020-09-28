@@ -1,7 +1,5 @@
 'use strict';
 
-localStorage.clear();
-
 const PLAYER_NAME = document.getElementById('name');
 const BTN_INSERT = document.getElementById('btnInsert');
 const BEST_SCORES = document.getElementById('best');
