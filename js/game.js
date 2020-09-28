@@ -41,6 +41,7 @@ var gPrevLevel = gLevel;
 
 
 function init() {
+    printBestScore();
     gTimer = 0;
     //dissable right click
     document.addEventListener('contextmenu', event => event.preventDefault());
