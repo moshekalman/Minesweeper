@@ -1,10 +1,29 @@
 body {
-  background-color: darkcyan;
+  background-image: linear-gradient(to right, darkblue, darkcyan,darkcyan, darkcyan, darkblue);
   color:white;
+  text-shadow: 2px 2px 5px cyan;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+fieldset{
+  margin:5;
+}
+
+
+.player-name{
+  display: none;
+}
  
+input{
+  padding: 7px;
+  height: 20px;
+  outline: none;
+}
+
+button{
+  outline: none;
+}
 
 table{
   margin: 0 auto;
@@ -88,7 +107,7 @@ cursor: pointer;
 
 div.board-info{
   margin: 10px 0;
-  background-color: blueviolet;
+  background-image: linear-gradient(to right, darkmagenta, blueviolet , violet, blueviolet, darkmagenta);
   border-radius: 10px;
   border-color: honeydew;
   border-style: groove;
@@ -96,7 +115,7 @@ div.board-info{
 
 div.helpers{
   margin: 10px 0;
-  background-color: blueviolet;
+  background-image: linear-gradient(to right, darkmagenta, blueviolet , violet, blueviolet, darkmagenta);
   text-transform: capitalize;
   border-radius: 20px;
   border-color: honeydew;

@@ -5,16 +5,22 @@ var gFirstCoord;
 
 //cell clicked functions
 function cellclicked(ev, elCell) {
-    if (!gGame.isOn) return;
     ev = ev || window.event;
     var cellCoord = getCellCoord(elCell.id);
     var currCell = gBoard[cellCoord.i][cellCoord.j];
+    if (gIsManual) {
+        setMinesManually(elCell);
+        return;
+    }
     if (gIsFirstClick) {
+        saveMemento();
         gFirstCoord = cellCoord;
         gStartingTime = Date.now();
         gTimerInterval = setInterval(setTimer, 30);
         firstClick();
+        gGame.isOn = true;
     }
+    if (!gGame.isOn) return;
     switch ((ev.which)) {
         case 1: //mouse left click
             if (currCell.isShown || currCell.isMarked) return;
@@ -22,6 +28,7 @@ function cellclicked(ev, elCell) {
                 activateHint(gBoard, cellCoord.i, cellCoord.j);
                 return;
             } else {
+                saveMemento();
                 gElEmoji.innerText = DOUBT_EMO;
                 if (currCell.isMine) {
                     gElEmoji.innerText = EXPLODE_EMO;
@@ -70,8 +77,6 @@ function cellclicked(ev, elCell) {
             break;
     }
     checkVictory();
-    gGameCopy = deepCopyGame(gGame);
-    gBoardCopy = deepCopyBoard(gBoard);
 }
 
 //gets coordinates form the cell id
@@ -90,6 +95,7 @@ function expandShown(board, elCell, rowIdx, colIdx) {
     var currCell = board[rowIdx][colIdx];
     if (currCell.minesAroundCount > 0) {
         elCell.innerText = currCell.minesAroundCount;
+        console.log(currCell.minesAroundCount);
     } else {
         for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
             if (i < 0 || i >= board.length) continue;
@@ -174,7 +180,7 @@ function activateHint(board, rowIdx, colIdx) {
 
 
 function firstClick() {
-    setMines(gBoard, gLevel.SIZE);
+    if (!gTotalMinesCount) setMines(gBoard, gLevel.SIZE);
     for (var i = 0; i < gLevel.SIZE; i++) {
         for (var j = 0; j < gLevel.SIZE; j++) {
             gBoard[i][j].minesAroundCount = getMinesNegsCount(gBoard, i, j);

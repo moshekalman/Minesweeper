@@ -7,6 +7,8 @@ const GAME_MEMENTOS = [];
 const FIRST_CLICK_MEMENTOS = [];
 
 function saveMemento() {
+    gGameCopy = deepCopyGame(gGame);
+    gBoardCopy = deepCopyBoard(gBoard);
     MEMENTOS.push(BOARD.innerHTML);
     BOARD_MEMENTOS.push(gBoardCopy);
     GAME_MEMENTOS.push(gGameCopy);
@@ -14,6 +16,7 @@ function saveMemento() {
 }
 
 function getUndo() {
+    if (!gGame.isOn) return;
     const LAST_MEMENTOS = MEMENTOS.pop();
     const LAST_G_GAME = GAME_MEMENTOS.pop();
     const LAST_BOARD = BOARD_MEMENTOS.pop();
@@ -55,11 +58,19 @@ function deepCopyGame(game) {
     return newGame;
 }
 
-// function setMinesManually(elCell) {
-//     var 
-//     var isManual = confirm('Place Manually?');
-//     if (!isManual) return;
-//     elCell.innerText = MINE;
-//     var currIdx = getCellCoord(elCell.id);
+function getManual() {
+    if (gGame.isOn) return;
+    alert(`You can now place your ${gLevel.MINES} mines manually!`)
+    gIsManual = true;
+    gTotalMinesCount = 0;
+}
 
-// }
+function setMinesManually(elCell) {
+    var currIdx = getCellCoord(elCell.id);
+    if (gBoard[currIdx.i][currIdx.j].isMine) return;
+    gBoard[currIdx.i][currIdx.j].isMine = true;
+    gTotalMinesCount++;
+    if (gTotalMinesCount === gLevel.MINES) {
+        gIsManual = false;
+    }
+}

@@ -15,6 +15,9 @@ const EXPLODE_EMO = '🤯';
 var gGameCopy;
 var gBoardCopy;
 
+var gCurrLevel = 'easy';
+var gTotalMinesCount;
+var gIsManual;
 var gElEmoji = document.querySelector('.emoji');
 var gElLives = document.querySelector('.lives');
 var gElHints;
@@ -38,8 +41,8 @@ var gPrevLevel = gLevel;
 
 
 function init() {
-    //dissable right click
     gTimer = 0;
+    //dissable right click
     document.addEventListener('contextmenu', event => event.preventDefault());
     gIsFirstClick = true;
     gLivesCount = 3;
@@ -53,11 +56,12 @@ function init() {
     gBoard = buildBoard(gLevel.SIZE);
     renderBoard(gBoard, '.board-container');
     gGame = {
-        isOn: true,
+        isOn: false,
         shownCount: 0,
         markedCount: 0,
         secsPassed: 0
     };
+    gTotalMinesCount = null;
     gGameCopy = deepCopyGame(gGame);
     gBoardCopy = deepCopyBoard(gBoard);
     saveMemento();
@@ -65,6 +69,8 @@ function init() {
 
 // resets init with the chosen diff
 function resetGame(elCell) {
+    hideNameFieldset();
+    gCurrLevel = elCell.innerText.toLowerCase();
     clearInterval(gTimerInterval);
     if (!gGame.isOn) toggleGameOver();
     gElEmoji.innerText = NORMAL_EMO;
@@ -116,7 +122,7 @@ function renderBoard(mat, selector) {
         for (var j = 0; j < mat[0].length; j++) {
             // var cell = (mat[i][j].isMine) ? MINE : mat[i][j].minesAroundCount; //dev cheats
             var cellCoord = `cell-${i}-${j}`;
-            strHTML += `<td class="cell" id=${cellCoord} onmousedown="saveMemento(event)" onmouseup="cellclicked(event, this)"></td>`;
+            strHTML += `<td class="cell" id=${cellCoord} onmouseup="cellclicked(event, this)"></td>`;
         }
         strHTML += '</tr>';
     }
@@ -129,8 +135,8 @@ function renderBoard(mat, selector) {
 
 //some modals
 function toggleGameOver() {
-    var elModal = document.querySelector('.game-over');
     clearInterval(gTimerInterval);
+    var elModal = document.querySelector('.game-over');
     elModal.classList.toggle('show');
     elModal = document.querySelector('.game-over span');
     elModal.innerText = 'YOU LOST!';
@@ -139,6 +145,7 @@ function toggleGameOver() {
 }
 
 function toggleVictory() {
+    console.log('time interval', gTimerInterval);
     clearInterval(gEmoInterval);
     clearInterval(gTimerInterval);
     var elModal = document.querySelector('.game-over');
@@ -148,6 +155,7 @@ function toggleVictory() {
     gElEmoji.innerText = WIN_EMO;
     gGame.isOn = false;
     gElTimer.innerText = `Final Time: ${gTimer}s`;
+    showNameFieldset();
 }
 
 function checkVictory() {
