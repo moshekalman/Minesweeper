@@ -73,7 +73,7 @@ function resetGame(elCell) {
     hideNameFieldset();
     gCurrLevel = elCell.innerText.toLowerCase();
     clearInterval(gTimerInterval);
-    if (!gGame.isOn) toggleGameOver();
+    hideModal();
     gElEmoji.innerText = NORMAL_EMO;
     switch (elCell.innerText.toLowerCase()) {
         case 'easy':
@@ -157,6 +157,12 @@ function toggleVictory() {
     gGame.isOn = false;
     gElTimer.innerText = `Final Time: ${gTimer}s`;
     showNameFieldset();
+}
+
+function hideModal() {
+    var elModal = document.querySelector('.game-over');
+    elModal.classList.remove('show');
+
 }
 
 function checkVictory() {
